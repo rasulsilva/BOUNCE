@@ -476,8 +476,8 @@ void eraseball(int xposition, int yposition) {//erase ball at parameters x and y
     fillCircle(xposition,yposition,6,0);
     }
 
-void getgoodchar(int previousnum, int currentnum, int prevchar) {
-
+void getgoodchar(int previousnum, int currentnum, int prevchar) {//this is a state machine that determines which char is next 
+//depending on the previous number, current number, and previous character
     if (previousnum != currentnum) {
 
         if (currentnum == 1){goodchar = ' ';}
@@ -508,97 +508,89 @@ void getgoodchar(int previousnum, int currentnum, int prevchar) {
             }
         }
         else if (previousnum == 3) {
-                    if (prevchar == 'D') {
-                        goodchar = 'E';
-                    }
-                    else if(prevchar == 'E'){
-                        goodchar = 'F';
-                    }
-                    else if(prevchar == 'F'){
-                        goodchar = 'D';
-                    }
-                }
+            if (prevchar == 'D') {
+		goodchar = 'E';
+            }
+            else if(prevchar == 'E'){
+                goodchar = 'F';
+            }
+            else if(prevchar == 'F'){
+                goodchar = 'D';
+            }
+        }
         else if (previousnum == 4) {
-                    if (prevchar == 'G') {
-                        goodchar = 'H';
-                    }
-                    else if(prevchar == 'H'){
-                        goodchar = 'I';
-                    }
-                    else if(prevchar == 'I'){
-                        goodchar = 'G';
-                    }
-                }
+            if (prevchar == 'G') {
+                goodchar = 'H';
+            }
+            else if(prevchar == 'H'){
+                goodchar = 'I';
+            }
+            else if(prevchar == 'I'){
+                goodchar = 'G';
+            }
+        }
         else if (previousnum == 5) {
-                    if (prevchar == 'J') {
-                        goodchar = 'K';
-                    }
-                    else if(prevchar == 'K'){
-                        goodchar = 'L';
-                    }
-                    else if(prevchar == 'L'){
-                        goodchar = 'J';
-                    }
-                }
+            if (prevchar == 'J') {
+                goodchar = 'K';
+            }
+            else if(prevchar == 'K'){
+                goodchar = 'L';
+            }
+            else if(prevchar == 'L'){
+                goodchar = 'J';
+            }
+        }
         else if (previousnum == 6) {
-                    if (prevchar == 'M') {
-                        goodchar = 'N';
-                    }
-                    else if(prevchar == 'N'){
-                        goodchar = 'O';
-                    }
-                    else if(prevchar == 'O'){
-                        goodchar = 'M';
-                    }
-                }
+            if (prevchar == 'M') {
+                goodchar = 'N';
+            }
+            else if(prevchar == 'N'){
+                goodchar = 'O';
+            }
+            else if(prevchar == 'O'){
+                goodchar = 'M';
+            }
+        }
         else if (previousnum == 7) {
-                    if (prevchar == 'P') {
-                        goodchar = 'Q';
-                    }
-                    else if(prevchar == 'Q'){
-                        goodchar = 'R';
-                    }
-                    else if(prevchar == 'R'){
-                        goodchar = 'S';
-                    }
-                    else if(prevchar == 'S'){
-                        goodchar = 'P';
-                    }
-                }
+            if (prevchar == 'P') {
+                goodchar = 'Q';
+            }
+            else if(prevchar == 'Q'){
+                goodchar = 'R';
+            }
+            else if(prevchar == 'R'){
+                goodchar = 'S';
+            }
+            else if(prevchar == 'S'){
+                goodchar = 'P';
+            }
+         }
          else if (previousnum == 8) {
-                    if (prevchar == 'T') {
-                        goodchar = 'U';
-                    }
-                    else if(prevchar == 'U'){
-                        goodchar = 'V';
-                    }
-                    else if(prevchar == 'V'){
-                        goodchar = 'T';
-                    }
+            if (prevchar == 'T') {
+                goodchar = 'U';
+            }
+            else if(prevchar == 'U'){
+                goodchar = 'V';
+            }
+            else if(prevchar == 'V'){
+                goodchar = 'T';
+            }
          }
          else if (previousnum == 9) {
-                           if (prevchar == 'W') {
-                               goodchar = 'X';
-                           }
-                           else if(prevchar == 'X'){
-                               goodchar = 'Y';
-                           }
-                           else if(prevchar == 'Y'){
-                               goodchar = 'Z';
-                           }
-                           else if(prevchar == 'Z'){
-                               goodchar = 'W';
-                           }
-                }
-
-
-
-
-
-
-
-    }//bang
-
+            if (prevchar == 'W') {
+                goodchar = 'X';
+            }
+            else if(prevchar == 'X'){
+                goodchar = 'Y';
+            }
+            else if(prevchar == 'Y'){
+                goodchar = 'Z';
+            }
+            else if(prevchar == 'Z'){
+                goodchar = 'W';
+            }
+          }
+	}
 }
 
 
@@ -610,7 +602,7 @@ static void GPIOA2IntHandler(void) { // remote press handler
     remotepressflag=1;
 
     time = Timer_IF_GetCount(g_ulBase, 0x000000ff);
-    normtime = time/1000;
+    normtime = time/1000;//normalize the time to a more manageable value
 
     if (remotepresscount > 18) {
       remotepresscount = 1;
@@ -704,57 +696,56 @@ void main()
     I2C_IF_Open(I2C_MASTER_MODE_FST);//initialize I2C
 
     g_ulBase = TIMERA0_BASE;
-        Timer_IF_Init(PRCM_TIMERA0, g_ulBase, 0x00000022, 0x000000ff, 0);//PERIODIC TIMER
-        Timer_IF_IntSetup(g_ulBase, 0x000000ff, TimerBaseIntHandler);
-        Timer_IF_Start(g_ulBase, 0x000000ff, 100000);
+    Timer_IF_Init(PRCM_TIMERA0, g_ulBase, 0x00000022, 0x000000ff, 0);//PERIODIC TIMER
+    Timer_IF_IntSetup(g_ulBase, 0x000000ff, TimerBaseIntHandler);
+    Timer_IF_Start(g_ulBase, 0x000000ff, 100000);
 
 
-        // Register the interrupt handlers
-        //MAP_GPIOIntRegister(GPIOA1_BASE, GPIOA1IntHandler);
-        MAP_GPIOIntRegister(GPIOA2_BASE, GPIOA2IntHandler);
+    // Register the interrupt handlers
+    //MAP_GPIOIntRegister(GPIOA1_BASE, GPIOA1IntHandler);
+    MAP_GPIOIntRegister(GPIOA2_BASE, GPIOA2IntHandler);
 
 
-        // Configure rising edge interrupts on remote press and SW3
-        //MAP_GPIOIntTypeSet(GPIOA1_BASE, 0x20, GPIO_RISING_EDGE);  // SW3
-        MAP_GPIOIntTypeSet(GPIOA2_BASE, 0x2, GPIO_RISING_EDGE); // remote press
+    // Configure rising edge interrupts on remote press and SW3
+    //MAP_GPIOIntTypeSet(GPIOA1_BASE, 0x20, GPIO_RISING_EDGE);  // SW3
+    MAP_GPIOIntTypeSet(GPIOA2_BASE, 0x2, GPIO_RISING_EDGE); // remote press
 
-        //ulStatus = MAP_GPIOIntStatus (GPIOA1_BASE, false);
-        //MAP_GPIOIntClear(GPIOA1_BASE, ulStatus);          // clear interrupts on GPIOA1
-        ulStatus = MAP_GPIOIntStatus (GPIOA2_BASE, false);
-        MAP_GPIOIntClear(GPIOA2_BASE, ulStatus);            // clear interrupts on GPIOA2   (remote press)
+    //ulStatus = MAP_GPIOIntStatus (GPIOA1_BASE, false);
+    //MAP_GPIOIntClear(GPIOA1_BASE, ulStatus);          // clear interrupts on GPIOA1
+    ulStatus = MAP_GPIOIntStatus (GPIOA2_BASE, false);
+    MAP_GPIOIntClear(GPIOA2_BASE, ulStatus);            // clear interrupts on GPIOA2   (remote press)
 
-        // clear global variables
-        SW2_intcount=0;
-        SW3_intcount=0;
-        SW2_intflag=0;
-        SW3_intflag=0;
-        displaycount=0;
-        remotepresscount=0;
-        remotepressflag=0;
-        arrayindex = 0;
-
-
-        // Enable SW2 and SW3 interrupts
-        //MAP_GPIOIntEnable(GPIOA1_BASE, 0x20);
-        MAP_GPIOIntEnable(GPIOA2_BASE, 0x2);
+    // clear global variables
+    SW2_intcount=0;
+    SW3_intcount=0;
+    SW2_intflag=0;
+    SW3_intflag=0;
+    displaycount=0;
+    remotepresscount=0;
+    remotepressflag=0;
+    arrayindex = 0;
 
 
-//        Message("\t\t****************************************************\n\r");
-//        Message("\t\t\tPress any button on the remote\n\r");
-//        Message("\t\t\tbuttons outside of the set will not be accomodated\n\r");
-//        Message("\t\t ****************************************************\n\r");
-//        Message("\n\n\n\r");
-        //Report("remote falling edges = %d\r\n",remotepresscount);
-       // printf("remote falling edges = %d\r\n",remotepresscount);
+    // Enable SW2 and SW3 interrupts
+    //MAP_GPIOIntEnable(GPIOA1_BASE, 0x20);
+    MAP_GPIOIntEnable(GPIOA2_BASE, 0x2);
 
 
-        int i = 0;
+    //Message("\t\t****************************************************\n\r");
+    //Message("\t\t\tPress any button on the remote\n\r");
+    //Message("\t\t\tbuttons outside of the set will not be accomodated\n\r");
+    //Message("\t\t ****************************************************\n\r");
+    //Message("\n\n\n\r");
+    //Report("remote falling edges = %d\r\n",remotepresscount);
 
+    int i = 0;
 
+    fillScreen(0);//default screen to black
 
-    fillScreen(0);
     while(1){
-
+	//this first section of code produces the timing behavior of the multi-tap text entry system
+	//if the time between consecutive button presses exceeds a certain value I enter the current
+	//into the word array
         timeouttime = Timer_IF_GetCount(g_ulBase, 0x000000ff);
         timeoutlength = (timeouttime - prevtimeouttime)/10000000;
         //printf("timeoutlength: %d\n",timeoutlength);
@@ -774,7 +765,7 @@ void main()
             charx = charx + 7;
             timerflag = 1;
         };
-//        Report("charx:  %d\n", charx);
+        //Report("charx:  %d\n", charx);
 
         MAP_GPIOIntEnable(GPIOA2_BASE, 0x2);
 
@@ -784,8 +775,11 @@ void main()
                            if (remotepresscount == 18 ){
 
                                for (i=0; i<18; i++) { diffarray[i] = timearray[i+1] - timearray[i];}
+			       //this for loop occupies the difference array.
+			       //for an array of time signatures of size n, we create an array of size (n-1) that contains the difference between
+			       //each consecutive signature	 	
 
-                               if (diffarray[1] > 355 && diffarray[1] < 375) {indextup = 11;}
+                               if (diffarray[1] > 355 && diffarray[1] < 375) {indextup = 11;}//error handling mechanism
                                else if (diffarray[2] > 355 && diffarray[2] < 375) {indextup = 12;}
                                else if (diffarray[3] > 355 && diffarray[3] < 375) {indextup = 13;}
                                else if (diffarray[4] > 355 && diffarray[4] < 375) {indextup = 14;}
@@ -796,7 +790,7 @@ void main()
                                                          && diffarray[indextup+2] < 90
                                                          && diffarray[indextup+3] < 90
                                                          && diffarray[indextup+4] < 90
-                                                         )//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                         )
                                                          {// Report("0 ");
                                                          printf("0\n");
                                                          prevnum = currnum;
@@ -822,7 +816,7 @@ void main()
                                                          currnum = 1;
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar );
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
                                                          //Report("goodchar: %cs\n\r", goodchar);
 
@@ -841,7 +835,7 @@ void main()
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
 
 
                                                          }
@@ -858,7 +852,7 @@ void main()
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
 
                                                          }
                                else if (diffarray[indextup] < 90/////4
@@ -874,7 +868,7 @@ void main()
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
 
                                                          }
                                else if (diffarray[indextup] > 90/////5
@@ -890,7 +884,7 @@ void main()
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
 
                                                          }
                                else if (diffarray[indextup] < 90//////6
@@ -906,7 +900,7 @@ void main()
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
 
 
                                                          }
@@ -923,7 +917,7 @@ void main()
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
 
                                                          }
                                else if (diffarray[indextup] < 90//////8
@@ -939,7 +933,7 @@ void main()
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
 
                                                          }
                                else if (diffarray[indextup] > 90///////9
@@ -955,7 +949,7 @@ void main()
                                                          prevchar = goodchar;
                                                          getgoodchar(prevnum, currnum, prevchar);
                                                          //drawChar(charx, chary, goodchar, 0xFFFF, 0x0000, 1);
-//                                                         Report("%c ", goodchar);
+                                                         Report("%c ", goodchar);
 
                                                          }
                                else if (diffarray[indextup] < 90///////mute
@@ -977,7 +971,7 @@ void main()
                                                          && diffarray[indextup+4] > 90
                                                         )
                                                         {
-//                                                        Report("channel down ");
+                                                        Report("channel down ");
                                                         //drawChar(charx, chary, '\b', 0xFFFF, 0x0000, 1);
                                                         //drawChar(charx, chary, ' ', 0xFFFF, 0x0000, 1);
                                                         charx = charx - 7;
@@ -998,24 +992,24 @@ void main()
                                                         && diffarray[indextup+4] > 90
                                                         )
                                                         {
-//                                                           Report("channel up ");
-//                                                        drawChar(36, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(43, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(50, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(57, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(64, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(71, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(78, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(85, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(92, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(99, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(106, chary, ' ', 0xFFFF, 0x0000, 1);
-//                                                        drawChar(113, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //Report("channel up ");
+                                                        //drawChar(36, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(43, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(50, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(57, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(64, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(71, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(78, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(85, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(92, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(99, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(106, chary, ' ', 0xFFFF, 0x0000, 1);
+                                                        //drawChar(113, chary, ' ', 0xFFFF, 0x0000, 1);
                                                         for (a = 0; a<10; a++){
                                                           Tx[a] = word[a];
                                                         }
                                                         e = 0;
-                                                        while (e<10) {
+                                                        while (e<10) {//send chars from Tx array one by one
                                                             UARTCharPut(UARTA1_BASE, Tx[e]);
 
                                                             printf("send %d",Tx[e]);
@@ -1043,44 +1037,46 @@ void main()
 
 
 
-
-//                               printf("indextup: %d\n", indextup);
-//                               printf("diff : (");
-//                                                 for (i = 0; i<18;i++) {
-//                                                      if (diffarray[i] != ""){
-//                                                      printf("%d,", diffarray[i]);
-//                                                         }
-//                                                      }
-//                                                 printf(")\n");
-//                             printf("word: %s", word);
-                             printf("currnum: %d   gameclock: %d\n", currnum, gameclock);
+		               //print out diff array for testing 
+                               /*printf("indextup: %d\n", indextup);
+                               printf("diff : (");
+                                                 for (i = 0; i<18;i++) {
+                                                      if (diffarray[i] != ""){
+                                                      printf("%d,", diffarray[i]);
+                                                         }
+                                                      }
+                                                 printf(")\n");
+                               printf("word: %s", word);
+                               printf("currnum: %d   gameclock: %d\n", currnum, gameclock);
+			       */
                     }
               }
 
 
-                   //state machine begin
-                            //state 0
-                            if (state == 0) {
-                                if (statezerocount == 0){
+              //state machine begin
+              //state 0
+              if (state == 0) {
+		
+              	  if (statezerocount == 0){
 
 
+				  //test graphics
+                                  //fillCircle(60,70,20,RED);
+                                  //fillRoundRect(46,70,27,27,2,CYAN);
+                                  //fillTriangle(55,60,60,50,65,60,0);
+                                  //fillRoundRect(0,120,40,10,1,RED);
+                                  //fillRoundRect(80,120,40,10,1,RED);
+                                  Outstr("BOUNCE", 10, 20, GREEN, 0x0, 3);
 
-//                                    fillCircle(60,70,20,RED);
-//                                    fillRoundRect(46,70,27,27,2,CYAN);
-//                                    fillTriangle(55,60,60,50,65,60,0);
-                                    //fillRoundRect(0,120,40,10,1,RED);
-                                    //fillRoundRect(80,120,40,10,1,RED);
-                                    Outstr("BOUNCE", 10, 20, GREEN, 0x0, 3);
+                                  drawCircle(20, 75, 10, CYAN);
+                                  drawChar(20, 75, '1', YELLOW, 0x0000, 1);
+                                  Outstr("PLAY", 40, 70, MAGENTA, 0x0, 2);
 
-                                    drawCircle(20, 75, 10, CYAN);
-                                    drawChar(20, 75, '1', YELLOW, 0x0000, 1);
-                                    Outstr("PLAY", 40, 70, MAGENTA, 0x0, 2);
+                                  drawCircle(20, 105, 10, CYAN);
+                                  drawChar(20, 105, '2', YELLOW, 0x0000, 1);
+                                  Outstr("Top Score:", 40, 100, MAGENTA, 0x0, 1);
 
-                                    drawCircle(20, 105, 10, CYAN);
-                                    drawChar(20, 105, '2', YELLOW, 0x0000, 1);
-                                    Outstr("Top Score:", 40, 100, MAGENTA, 0x0, 1);
-
-                                    statezerocount = 1;
+                                  statezerocount = 1;
                                 }
 
                                 if (currnum == 1){
@@ -1088,17 +1084,17 @@ void main()
                                 }
                                 else if (currnum == 2) {
                                     fillCircle(20,105,2,RED);
-                                                                fillCircle(20,105,4,RED);
-                                                                fillCircle(20,105,6,RED);
-                                                                fillCircle(20,105,8,RED);
-                                                                fillCircle(20,105,10,RED);
+                                    fillCircle(20,105,4,RED);
+                                    fillCircle(20,105,6,RED);
+                                    fillCircle(20,105,8,RED);
+                                    fillCircle(20,105,10,RED);
 
-                                                                fillCircle(20,105,2,0);
-                                                                fillCircle(20,105,4,0);
-                                                                fillCircle(20,105,6,0);
-                                                                fillCircle(20,105,8,0);
-                                                                fillCircle(20,105,10,0);
-                                                                currnum = 0;
+                                    fillCircle(20,105,2,0);
+                                    fillCircle(20,105,4,0);
+                                    fillCircle(20,105,6,0);
+                                    fillCircle(20,105,8,0);
+                                    fillCircle(20,105,10,0);
+                                    currnum = 0;
 
                                     Outstr("HIGH: ", 10, 50, GREEN, 0x0, 1);
                                     Outstr(str, 50, 50, CYAN, 0x0, 1);
@@ -1126,11 +1122,11 @@ void main()
                                 fillCircle(20,75,10,0);
                                 fillScreen(0);
                                 Outstr("BOUNCE!", 10, 10, CYAN, 0x0, 1);
-//                                while (e<3) {
-//                                                                         UARTCharPut(UARTA1_BASE, str[e]);
-//                                                                         printf("send %d",str[e]);
-//                                                                         e++;
-//                                                                         }
+//                              while (e<3) {
+//                                  UARTCharPut(UARTA1_BASE, str[e]);
+//                                  printf("send %d",str[e]);
+//                                  e++;
+//                              }
                                 while (death == 0){
                                     gameclock++;
                                     //I2C_IF_Write(Acceladdr,&xreg,1,0);//tell x reg to get ready
@@ -1275,10 +1271,5 @@ void main()
                          }
                    //state machine end
 
-
-
-
-
-       }
+		}
 }
-
